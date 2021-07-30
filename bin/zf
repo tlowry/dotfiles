@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: zf <dir to zip>" && exit 1
+zip -r "$1".zip "$1";

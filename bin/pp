@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: pp <proc>" && exit 1
+kill -9 `ps -ef | grep -v "grep" | grep "$1" | awk '{ print $2 }'`

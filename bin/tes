@@ -1,0 +1,31 @@
+#!/bin/sh
+# attach to common session for user, create if missing
+
+mk_sesh () {
+    echo "creating session $1"
+    tmux -f $HOME/.config/tmux/tmux.conf new -d -s "$1"
+
+    tmux new-window -t "$1" # create win 1
+
+    #tmux new-window -t "$1" # create win 2
+
+    tmux kill-window -t "$1:0" # win 0 is distant on kbd, dont need
+
+    # send split cmd to "session:window:pane"
+    tmux splitw -h -p 30 -t "$1:1.0"
+    tmux splitw -v -p 30 -t "$1:1.1"
+    tmux send-keys -t "$1:1.1" "cd ~;clear" ENTER
+
+    tmux select-pane -t "$1:1.0" # select pane 0
+
+}
+
+sesh="$UID"_main
+found=`tmux -f $HOME/.config/tmux/tmux.conf list-sessions | sed -e 's/^\(.*\): .*/\1/g' | grep "$sesh"`
+
+if [ -z "$found" ]; then
+    mk_sesh "$sesh"
+    tmux attach -t "$sesh"
+else 
+    tmux attach -t "$sesh"
+fi

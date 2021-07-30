@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: mkpatch <old_file> <newer_file>" && exit 1
+diff -NbBup "$1" "$2" > `basename "$2"`.patch

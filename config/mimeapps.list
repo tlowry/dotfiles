@@ -1,0 +1,21 @@
+[Default Applications]
+# to add more run: xdg-mime default something.desktop text/html
+inode/directory=lf.desktop;
+image/jpeg=sxiv.desktop;
+image/png=sxiv.desktop;
+image/gif=sxiv.desktop;
+image/png=sxiv.desktop;
+image/webp=sxiv.desktop;
+application/epub+zip=zathura.desktop;
+application/pdf=zathura.desktop;
+text/plain=vim.desktop;
+text/markdown=vim.desktop;
+text/xml=vim.desktop;
+audio/oggapplication/octet-stream=mpv.desktop;
+application/x-mobipocket-ebook=calibre-ebook-viewer.desktop;
+application/x-mobi8-ebook=calibre-ebook-viewer.desktop;
+text/html=brave-browser.desktop;
+text/rtf=abiword.desktop;
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=abiword.desktop;
+text/gemini=amfora.desktop;
+x-scheme-handler/gemini=amfora.desktop;

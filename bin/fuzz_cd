@@ -1,0 +1,3 @@
+#!/bin/sh
+# fuzzy cd with fzf : github.com/junegunn/fzf/wiki/examples#changing-directory
+dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf ) && cd "$dir"

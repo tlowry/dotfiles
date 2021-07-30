@@ -1,0 +1,4 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: ser <web search term>" && exit 1
+term="'$*'"
+elinks "https://lite.duckduckgo.com/lite/?q=$term"

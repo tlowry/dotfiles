@@ -1,0 +1,10 @@
+#!/bin/bash
+# replace all unsafe chars in filenames with safer ones for the current dir
+find -maxdepth 1 -print0 | 
+	while IFS= read -r -d '' i; do 
+	file_name=`basename "$i"`
+	dir=`dirname "$i"`
+
+    clean_name=`clean_file_name "$file_name"`
+    [ "$clean_name" != "$file_name" ] && mv "$i" "$dir/$clean_name"
+done

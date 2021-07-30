@@ -1,0 +1,4 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: rm_vm <vm_name>" && exit 1
+virsh destroy "$1"
+virsh undefine "$1"

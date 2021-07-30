@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# delete existing rules (in case of multiple runs of script)
+bspc rule -r "*"
+
+MAIN_MON=`xrandr | grep " connected" | grep primary | awk {'print $1'}`
+LEFT_MON=`xrandr | grep " connected" | grep -v primary | awk {'print $1'}`
+
+bspc monitor "$MAIN_MON" -d I II III IV V VI
+#bspc monitor "$LEFT_MON" -d V VI VII VIII
+
+_bc() {
+    bspc config "$@"
+}
+
+# top padding matches size of bar, tight gaps + border for more space
+#_bc top_padding 28
+_bc border_width 1 
+_bc window_gap 1
+
+_bc split_ratio          0.52
+_bc borderless_monocle   true
+_bc gapless_monocle      true
+
+# Theming
+fg=`getx *foreground`
+bg=`getx *background`
+
+_bc normal_border_color       "$bg"
+_bc active_border_color       "$bg"
+_bc focused_border_color      "$fg"
+_bc urgent_border_color       "$bg"
+_bc presel_feedback_color     "$bg"
+
+bspc rule -a Gimp desktop='^8' state=floating follow=on
+bspc rule -a Chromium desktop='^2'
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off
+bspc rule -a Zathura state=tiled
+
+# Autostart
+startup_lock_file="/tmp/bspwm-startup-$$.lock"
+if [ ! -f "$startup_lock_file" ]; then
+    touch "$startup_lock_file"
+    app_ctl start &
+
+    pgrep bspswallow || bspswallow &
+    # next line now causes severe issues
+    # long delay to start bspwm & gpu
+    # accelerated applications badly broken
+    polybar -r bspwm_bar &
+fi

@@ -1,0 +1,5 @@
+#!/bin/sh
+# pull & push files from google drive #rclone sync ~/gdrive gdrive:/
+# pull files from remote to local copy (favour using rclone commands to manipulate remote e.g rclone move rclone delete with complementary local operations and then pulling from remote)
+# NEVER push to remote, could carelessly delete files
+rclone sync gdrive:/ ~/gdrive

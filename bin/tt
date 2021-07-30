@@ -1,0 +1,5 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: tt <file to compress>" && exit 1
+file=`basename "$1"`".tgz"
+tar -czf "$file" "$1"
+echo "$file"

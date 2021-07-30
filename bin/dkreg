@@ -1,0 +1,5 @@
+#!/bin/sh
+
+host="localhost"
+[ -z "$1" ] || host="$1"
+curl -X GET http://"$host":5000/v2/_catalog

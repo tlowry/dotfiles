@@ -1,0 +1,5 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: mcl <>" && exit 1
+
+new_name=`clean_file_name "$1"`
+[ -f "$1" ] && mv "$1" $new_name

@@ -1,0 +1,27 @@
+{
+    "wallpaper": "/stor/pic/wallhaven-0wy8dq.jpg",
+    "alpha": "100",
+    "special": {
+        "background": "#2e3436",
+        "foreground": "#eeeeec",
+        "cursor": "#c0c0c0"
+    },
+    "colors": {
+        "color0": "#2e3436",
+        "color1": "#cc0000",
+        "color2": "#73d216",
+        "color3": "#edd400",
+        "color4": "#3465a4",
+        "color5": "#75507b",
+        "color6": "#f57900",
+        "color7": "#d3d7cf",
+        "color8": "#2e3436",
+        "color9": "#ef2929",
+        "color10": "#8ae234",
+        "color11": "#fce94f",
+        "color12": "#729fcf",
+        "color13": "#ad7fa8",
+        "color14": "#fcaf3e",
+        "color15": "#eeeeec"
+    }
+}

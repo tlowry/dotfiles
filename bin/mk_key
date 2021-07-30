@@ -1,0 +1,13 @@
+#!/bin/sh
+create_key () {
+    ssh-keygen -t rsa -b 4096 -q -f "$1" -N ""
+    chmod 400 "$1"
+    eval `ssh-agent -s`
+    ssh-add "$1"
+}
+
+[ -d ~/.ssh ] || mkdir ~/.ssh
+kfile=~/.ssh/id_rsa
+[ -z "$1" ] || kfile="$1" 
+[ -f "$kfile" ] && echo "$kfile already exists" && exit 1 
+create_key "$kfile"

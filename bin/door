@@ -1,0 +1,32 @@
+#!/bin/sh
+# prime remote box for ssh login without password 
+[ -z "$1" ] && echo "use: door <sshuser@remote>" && exit 1
+
+# send a key to remote authorized file
+push_key () {
+    u="$1"
+    box="$2"
+    key="$3"
+    remfile=".ssh/authorized_keys"
+    ssh "$u@$box" "[ -d .ssh ] || mkdir .ssh; [ -f \"$remfile\" ] || touch "$remfile"; grep -qxF \"$key\" "$remfile" || echo "$key" >> "$remfile";chmod 700 ~/.ssh;chmod 600 ~/.ssh/authorized_keys"
+}
+
+boxname=`echo "$1" | awk '{split($0, a, "@"); print a[2] }'`
+
+if [ -z "$boxname" ]; then
+    # there was no @ in str & box comes after
+    boxname="$1" && RUSER="$USER"
+else
+    # there was an @ in str & box comes after
+    RUSER=`echo "$1" | awk '{split($0, a, "@"); print a[1] }'`
+fi
+
+# specify keyfile, generate if necessary
+key="$HOME/.ssh/id_rsa"
+[ -z "$2" ] || key="$2"
+
+[ -f "$key" ] || mk_key "$key"  
+
+# now push the keyfile contents to the remote
+keyc=`cat "$key.pub"`
+push_key "$RUSER" "$boxname" "$keyc"

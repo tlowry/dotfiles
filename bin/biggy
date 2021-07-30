@@ -1,0 +1,5 @@
+#!/bin/sh
+# Find top largest subdirs in a directory
+dir="."
+[ -z "$1" ] || dir="$1"
+du -at 40000 "$dir" | sort -rn | head -n 30

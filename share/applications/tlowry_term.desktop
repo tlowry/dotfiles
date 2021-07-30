@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Terminals
+Comment=Open a tabbed terminal session
+Exec=gnome-terminal
+Icon=/usr/share/icons/Adwaita/96x96/apps/utilities-terminal-symbolic.symbolic.png
+Terminal=false
+Exec=nohup tlowry_term

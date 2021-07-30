@@ -1,0 +1,5 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: ff <term to find>" && exit 1
+DIR="."
+[ -z "$2" ] || DIR="$2"
+find "$DIR" -name "*$1*" 2>/dev/null

@@ -1,0 +1,8 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: bak <path to file to backup>" && exit 1
+dir="$HOME/bak"
+[ -d "$dir" ] || mkdir -p "$dir"
+newdir="$dir/"`dirname "$1"`
+[ -d "$newdir" ] || mkdir -p "$newdir"
+echo "$1 -> $newdir"
+cp "$1" "$newdir"

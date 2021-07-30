@@ -1,0 +1,4 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: thread_dump <process name>" && exit 1
+out_file="$1_thread_dump.txt"
+gdp "$1" -ex "set confirm off" -ex "thread apply all bt full" -ex "quit" > "$out_file" 2>&1 && echo "results in $out_file"

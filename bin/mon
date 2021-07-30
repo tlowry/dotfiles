@@ -1,0 +1,10 @@
+#!/bin/sh
+# watch a file or directory in real time and highlight changes
+[ -z "$1" ] && echo "use: mon <file or dir to monitor>" && exit 1
+if [ -d "$1" ]; then
+    watch --color -d -n 2 ls -Alt "$1"
+elif [ -f "$1" ]; then
+    watch -d -n 2 tail -n 20 "$1"
+else
+    echo "no file or dir $1 " && exit 1 
+fi

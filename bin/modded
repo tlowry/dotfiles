@@ -1,0 +1,3 @@
+#!/bin/sh
+# cvs command to check for modified files
+cvs -qn update | grep "^[A|M]"

@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: tinfo <torrent num>" && exit 1
+transmission-remote -t "$1" -i

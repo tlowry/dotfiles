@@ -1,0 +1,10 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: start_vm <name>" && exit 1
+
+do_it () {
+    mk_bridge
+    virsh start "$1" && nohup virt-viewer
+}
+
+[ `id -u` == 0 ] || echo "must be root" ;exit
+do_it "$1"

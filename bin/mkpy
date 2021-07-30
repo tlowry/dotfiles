@@ -1,0 +1,14 @@
+#!/bin/sh
+#  script to make a python script!
+[ -z "$1" ] && echo "mkpy <script_name>" && exit 0
+[ -f "$1" ] && echo "$1 already exists" && exit 0
+[ -d "$1" ] && echo "$1 already exists as directory" && exit 0
+
+f="$1".py
+echo -e "#!/usr/bin/env python3\n" > "$f"
+echo -e "import sys\n" >> "$f"
+echo -e "if len(sys.argv) < 2:" >> "$f"
+echo -e "    print(\"use $1 <>\")\n" >> "$f"
+echo -e "    sys.exit()" >> "$f"
+
+chmod +x "$f" && $EDITOR "$f"

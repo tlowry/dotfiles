@@ -1,0 +1,10 @@
+[push]
+    default = simple
+[user]
+	name = tlowry
+
+[branch "master"]
+        rebase = true
+
+[branch "main"]
+        rebase = true

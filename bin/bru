@@ -1,0 +1,7 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: bru <path/file> to force create" && exit 1
+path=`dirname "$1"`
+file=`basename "$1"`
+
+[ -z "$path" ] || mkdir -p "$path" && touch "$path/$file"
+echo "$path/$file"

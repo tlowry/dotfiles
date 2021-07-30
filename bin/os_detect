@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# prefer ID_LIKE
+os=`grep "^ID_LIKE=" /etc/os-release`
+[ -z "$os" ] && os=`grep "^ID=" /etc/os-release`
+echo "$os" | awk '{split($0,arr,"="); print arr[2]}'

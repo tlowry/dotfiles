@@ -1,0 +1,9 @@
+#!/bin/sh
+# add a path to the system path (returns the amended path)
+[ -z "$1" ] && echo "use: pathmerge <path_to_add_to> <path_to_add>" && exit 1
+if ! echo "$1" | /bin/egrep -q "(^|:)"$2"($|:)" ; then
+    RET="$1":"$2"
+    echo "$RET" 
+else
+    echo "$1"
+fi

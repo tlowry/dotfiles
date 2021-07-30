@@ -1,0 +1,10 @@
+#!/bin/sh
+#  script to make a script!
+[ -z "$1" ] && echo "mk_script <script_name>" && exit 0
+[ -f "$1" ] && echo "$1 already exists" && exit 0
+
+echo "#!/bin/sh" > "$1"
+echo "[ -z \"\$1\" ] && echo \"use: "$1" <>\" && exit 1" >> "$1"
+echo "" >> "$1"
+
+chmod +x "$1" && $EDITOR "$1"

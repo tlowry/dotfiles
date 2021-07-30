@@ -1,0 +1,39 @@
+#!/bin/sh
+# Clunky script to setup a bridged switch for vms
+
+unbridge () {
+    echo "removing $1 from bridge"
+    ip link set "$1" nomaster
+    systemctl restart dhcpcd
+}
+
+create_if () {
+    echo "create $1"
+    ip link add name "$1" type bridge
+    ip link set "$1" up && return 0
+    return 1
+}
+
+clear_if () {
+    echo "clear $1"
+    # clear ips & routes for existing if
+    systemctl stop dhcpcd && ip addr flush dev "$1" && ip route flush dev "$1" && return 0
+    return 1
+}
+
+master_br () {
+    echo "master $1 $2"
+    # set bridge as master of existing if
+    ip link set "$1" up && ip link set "$1" master "$2" && dhcpcd "$2" && return 0
+    return 1
+}
+
+# this should be the 'real' interface
+dif=`getif`
+
+# if 'undo' arg supplied then unbridge
+[ "undo" == "$1" ] && unbridge "$dif" && exit 0
+
+# create & enable bridge interface
+bn="br0"
+create_if "$bn" && clear_if "$dif" && master_br "$dif" "$bn"

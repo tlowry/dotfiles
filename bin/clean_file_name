@@ -1,0 +1,14 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: clean_file_name <file_name>" && exit 1
+
+e_sp='s/ /_/g'       # space to uscore
+e_plus='s/!//g;s/&/+/g'  # & to +
+e_spec='s/[!|(|)|;]//g' # remove spec
+e_brace='s/\[\|\]//g'   # remove braces
+e_uncap='s/.*/\L&/'     # caps to lwr
+e_quote="s/'//g"        # single quotes
+e_rep='s/\([-_]\)\1\+/\1/g' # repeating
+e_br='s/_-_/-/g' # rm bridge
+
+file_name=`echo "$1" | sed "$e_sp;$e_plus;$e_spec;$e_brace;$e_uncap;$e_quote;$e_rep;$e_br"`
+echo "$file_name"

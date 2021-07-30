@@ -1,0 +1,6 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: cap <tcp port>" && exit 1
+ts=`date +%s`
+out_file="$1_$ts.pcap"
+tshark -i any -f "tcp port $1" -w "$out_file"
+echo "$out_file"

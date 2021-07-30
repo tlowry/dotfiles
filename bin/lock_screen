@@ -1,0 +1,4 @@
+#!/bin/sh
+bg=`getx *background`
+[ -z "$bg" ] && bg="#2e3436"
+ps -ef | grep -v grep | grep i3lock || i3lock -c "$bg"

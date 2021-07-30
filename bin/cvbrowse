@@ -1,0 +1,37 @@
+#!/bin/sh
+# browse through revisions of a cvs file
+
+if [ -z "$1" ] || [ ! -f "$1" ] ;then
+  echo "Please provide a file under cvs control" >&2   # Error message to stderr.
+  exit $E_NOTFOUND
+fi
+
+ver_string=$(cvvers $1)
+versions=($(echo $ver_string | tr " " "\n"))
+
+max_len=${#versions[@]}
+((max_len--))
+
+peek_at() {
+    clear
+    printf "*****\n begin viewing $1 rev: ${versions[$2]}\n*****"
+    cvpeek $1 ${versions[$2]}
+    printf "*****\n end viewing $1 rev: ${versions[$2]}\n*****"
+}
+
+i=0
+echo "Use arrow keys to browse revisions"
+while true
+do
+  read -sn3 key
+  case "$key" in
+    $'\x1b[A')
+        [ $i -ne $max_len ] && ((i++)) && peek_at $1 $i
+    ;;
+
+    $'\x1b[B')
+        [ $i -ne $max_len ] && ((i--)) && peek_at $1 $i
+        ;;
+    *)continue;;
+  esac
+done

@@ -1,0 +1,17 @@
+#!/bin/sh
+# makes a new user with sudo privileges
+
+del_user () {
+    echo "Removing $1" && userdel -f "$1"
+    exit 1
+}
+
+[ -z "$1" ] && echo "use: mku <username> <-r to remove>" && exit 1
+[ -n "$2" ] && [ "$2" = "-r" ] && del_user "$1"
+
+is_deb=`cat /etc/os-release | grep "=debian"`
+
+grp="wheel"
+[ -z "$is_deb" ] || grp="sudo"
+
+useradd -m "$1" && usermod -aG "$grp" "$1"; passwd "$1"

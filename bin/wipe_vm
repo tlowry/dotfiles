@@ -1,0 +1,5 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: wipe_vm <virsh_name>" && exit 1
+virsh shutdown "$1"
+virsh destroy "$1"
+virsh undefine "$1"

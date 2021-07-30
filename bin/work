@@ -1,0 +1,10 @@
+#!/bin/sh
+
+url="https://www.udemy.com/course/python-for-data-science-and-machine-learning-bootcamp/learn/lecture/17739856#overview"
+bopts=""
+BROWSER="google-chrome-stable"
+[ "$BROWSER" == "brave" ] && bopts="--new-window"
+$BROWSER "$bopts" "$url" &
+sleep 0.8 
+alacritty --working-directory="/home/tlowry/dev/ai" -e "bash" &
+alacritty --working-directory="/home/tlowry/dev/refactored_py_ds_ml_bootcamp-master" -e "bash" &

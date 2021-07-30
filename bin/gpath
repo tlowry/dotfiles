@@ -1,0 +1,18 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: gpath <>" && exit 1
+path=$1
+
+#TODO : check this is not already a full path
+pwd=`pwd`
+
+GPATH=`readlink -f /home/tlowry/gdrive` 
+CWD=`readlink -f .`
+
+
+[ "${CWD##$GPATH}" != "$CWD" ] || exit 1
+
+full_path="$pwd/$1"
+tail="${full_path#/*/*/*/}"
+
+# tail should now be a relative path of gdrive
+echo $tail

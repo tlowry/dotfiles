@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: trm <>" && exit 1
+transmission-remote -t "$1" -r

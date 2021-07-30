@@ -1,0 +1,4 @@
+#!/bin/sh
+[ -z $2 ] && echo "use: pmv <src> <dest>" && exit 1
+dest_dir=`dirname $2`
+[ -f dest_dir ] || mkdir -p $dest_dir && mv $1 $2

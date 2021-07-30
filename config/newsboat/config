@@ -1,0 +1,10 @@
+confirm-exit no
+auto-reload yes
+
+color listnormal        color7 color0 
+color listnormal_unread color7 color0 bold
+color listfocus         color15 color7 bold 
+color listfocus_unread  color0 color7 bold
+color info              color7 color0 bold
+color background        color7 color0 
+color article           color7 color0 bold

@@ -1,0 +1,19 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: enc <file_to_encrypt>" && exit 1
+
+cleanup () {
+    [ -f "$clean_file" ] && rm -rf "$clean_file"
+}
+
+if [ -d "$1" ]; then
+  g=`echo "$1" | sed 's:/*$::'`
+  file="$g.tgz"
+  clean_file="$file"
+  tar -czf "$file" "$1"
+else
+  file="$1"
+fi
+
+file_out="$file.gpg"
+
+gpg -o "$file_out" --cipher-algo AES256 --symmetric "$file" && echo "$file_out" && cleanup

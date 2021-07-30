@@ -1,0 +1,92 @@
+#BSPWM specific keybindings
+
+# quit/restart bspwm
+super + shift  + {q,r}
+	bspc {quit,wm -r}
+
+# close and kill
+super + {_,shift + }q
+    bspc node -{c,k}
+
+# swap the current node and the biggest node
+super + g
+	bspc node -s biggest
+#
+# state/flags
+#
+
+# set the window state
+super + {t,s}
+	bspc node -t {tiled,floating}
+
+super + f
+    bspc node -t \~fullscreen
+
+# monocle layout
+super + z
+    bspc desktop -l next
+
+# set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+#
+# focus/swap
+#
+
+# Directional swap + focus 
+super + shift + {h,j,k,l}
+    d={west,south,north,east}; bspc node -s $d.local --follow || bspc node -m $d --follow
+
+# Directional swap + focus
+super + shift + {Left,Down,Up,Right}
+    d={west,south,north,east}; bspc node -s $d.local --follow || bspc node -m $d --follow
+
+# Focus next/previous window
+alt + {_,shift} + Tab
+    bspc node --focus {prev,next}
+
+# Focus in direction vi
+super + {h,j,k,l}
+    d={west,south,north,east}; bspc node -f $d.local
+
+# Focus in direction arrows 
+super + {Left,Down,Up,Right}
+    d={west,south,north,east}; x=0;y=0;[ "$d" == "west" ] && x=-20; [ "$d" == "east" ] && x=20; [ "$d" == "south" ] && y=20;[ "$d" == "north" ] && y=-20; bspc node focused.floating -v $x $y || bspc node -f $d.local 
+
+# focus the next/previous node in the current desktop
+super + {_,shift + }c
+	bspc node -f {next,prev}.local
+
+# focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# focus the last node/desktop
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}' --follow
+
+#
+# move/resize
+#
+
+# expand a window by moving one of its side outward
+super + ctrl + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# expand a window by moving one of its side outward
+super + ctrl + {Left,Down,Up,Right}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + {Left,Down,Up,Right}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+

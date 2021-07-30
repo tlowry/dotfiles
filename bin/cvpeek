@@ -1,0 +1,36 @@
+#!/bin/sh
+# peek at a given revision of a cvs file
+
+if [ "$1" == "" ]
+    then
+        echo "please supply a filename"
+        exit
+fi
+
+if [ "$2" == "" ]
+    then
+        echo "please supply a revision"
+        exit
+fi
+
+file=$1
+orig_dir=$(pwd)
+file_path=`dirname $1`
+file_name=`basename $1`
+
+echo $file_path
+
+timestamp=$(date +%s)
+tmp_dir=/tmp/cv_$timestamp
+
+# copy file + CVS folder to temp
+mkdir $tmp_dir && cd $tmp_dir
+mkdir -p $file_path
+cp -r $orig_dir"/$file_path/CVS" $file_path
+
+# update temp file to requested revision and cat contents
+cvs update -r $2 $file && cat $file
+
+# cleanup
+rm -rf $tmp_dir
+cd $orig_dir

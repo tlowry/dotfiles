@@ -1,0 +1,8 @@
+#!/bin/sh
+# Text to speech using picotts
+[ -z "$1" ] && echo "use: speak <something to say>" && exit 1
+
+timestamp=`date +%s`
+f="/tmp/spk_$timestamp.wav"
+pico2wave -l=en-US -w=$f "$1"
+[ -f "$f" ] && mpv "$f" && rm -rf "$f"

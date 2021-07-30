@@ -1,0 +1,6 @@
+#!/bin/sh
+[ -z $1 ] && echo "use: inst_sysd <sys_d_svc_file>" && exit
+file=$1
+svc=`basename $file`
+cp $file /etc/systemd/system/ && chmod 666 /etc/systemd/system/$svc
+systemctl enable $svc && systemctl start $svc

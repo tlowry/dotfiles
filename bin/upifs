@@ -1,0 +1,2 @@
+#!/bin/sh
+ip link | grep "state UP" | awk '{print $2 }' | cut -f1 -d":"

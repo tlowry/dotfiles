@@ -1,0 +1,2 @@
+source $HOME/.config/mutt/muttrc
+bind browser h goto-parent

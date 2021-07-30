@@ -1,0 +1,63 @@
+#!/bin/sh
+[ -z "$3" ] && echo "use: mk_vm <name> <variant> <iso>" && exit 1
+# example: mk_vm cent8 rhel8.1 /path/os/centos-8.1.1911-x86_64-dvd1.iso
+
+mode="std"
+[ "$2" == "archlinux" ] && mode="hybrid" 
+[[ "$2" == win* ]] && mode="win"
+
+win_install () {
+    echo "doing windows install"
+    virt-install \
+    --name "$1" \
+    --description "$1" \
+    --ram=4096 \
+    --vcpus=2 \
+    --os-type=Windows \
+    --os-variant="$2" \
+    --disk path=/var/lib/libvirt/images/"$1".qcow2,bus=virtio,size=20 \
+    --vnc \
+    --network bridge=br0 \
+    --cdrom="$3" \
+    --disk /stor/vm/virtio-win-0.1.185.iso,device=cdrom,bus=sata 
+}
+
+hy_install () {
+    echo "doing hybrid install"
+    virt-install \
+    --name "$1" \
+    --description "$1" \
+    --ram=4096 \
+    --vcpus=2 \
+    --os-type=Linux \
+    --os-variant="$2" \
+    --disk path=/var/lib/libvirt/images/"$1".qcow2,bus=virtio,size=20 \
+    --vnc \
+    --network bridge=br0 \
+    --cdrom="$3"
+}
+
+std_install () {
+    echo "doing standard install"
+    virt-install \
+    --name "$1" \
+    --description "$1" \
+    --ram=4096 \
+    --vcpus=2 \
+    --os-type=Linux \
+    --os-variant="$2" \
+    --disk path=/var/lib/libvirt/images/"$1".img,bus=virtio,size=20 \
+    --vnc \
+    --network bridge=br0 \
+    --extra-args ro \
+    --location="$3"
+    --cdrom="$3"
+}
+
+if [ "$mode" == "hybrid" ]; then
+    hy_install "$1" "$2" "$3"
+elif [ "$mode" == "win" ]; then
+    win_install "$1" "$2" "$3"
+else
+    std_install "$1" "$2" "$3"
+fi

@@ -1,0 +1,60 @@
+#!/bin/sh
+# use this script to set the gnome shell custom keyboard shortcuts
+
+alias gset="gsettings set"
+
+KEY_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+FULL_PATH="org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$KEY_PATH"
+SLOT_PATH="org.gnome.settings-daemon.plugins.media-keys custom-keybindings"
+
+K_MAX=9
+K_IDX=0
+
+# Setup the custom keybinding slots
+setup_slots () {
+    slots="["
+
+    for ((i=0;i<=$K_MAX;i++));
+    do
+        slots=$slots"'$KEY_PATH/custom"$i"/'"
+        [ $i == $K_MAX ] || slots=$slots","
+    done
+
+    slots+="]"
+
+    gset $SLOT_PATH "$slots"
+}
+
+# Delete all previous custom config (no effect on default gnome 3 keys)
+clear_slots () {
+    gset $SLOT_PATH "[]"
+}
+
+# Bind a custom key
+b_key () {
+    
+    [ -z "$1" ] && echo "Shortcut missing name" && return 1
+    [ -z "$2" ] && echo "Shortcut missing command" && return 2
+    [ -z "$3" ] && echo "Shortcut missing keybind" && return 3
+    [ $K_IDX == $K_MAX ] && echo "too many shortcuts" && return 4
+
+    gset "$FULL_PATH/custom$K_IDX/" "name" "$1"
+    gset "$FULL_PATH/custom$K_IDX/" "command" "$2"
+    gset "$FULL_PATH/custom$K_IDX/" "binding" "$3"
+
+    ((K_IDX++))
+}
+
+# Set your bindings here (some bindings already reserved by gnome3)
+bind_keys () {
+
+    b_key "Terminal" "/usr/bin/gnome-terminal" "<Super>Return"
+    b_key "Nautilus" "/usr/bin/nautilus --new-window" "<Super>D"
+    b_key "Vim" "/usr/bin/gnome-terminal -- vim -c 'startinsert'" "<Super>E"
+    b_key "Firefox" "/usr/bin/firefox about:blank" "<Super>F"
+    b_key "Gedit" "/usr/bin/gedit" "<Super>G"
+}
+
+clear_slots
+setup_slots
+bind_keys

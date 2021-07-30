@@ -1,0 +1,4 @@
+#!/bin/sh
+# only run if x open, massive delay & error otherwise
+[ -z "$DISPLAY" ] || xrdb -merge ~/.config/X11/Xresources
+return 0

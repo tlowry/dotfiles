@@ -1,0 +1,61 @@
+#!/bin/bash
+##################################################################
+# Script: Zombie Slayer
+# Author: Mitch Milner
+# Date:   03/13/2013 ---> A good day to slay zombies
+#
+# Requirements: yum install gdb
+#               permissions to attach to the parent process
+#
+# This script works by using a debugger to
+# attach to the parent process and then issuing
+# a waitpid to the dead zombie. This will not kill
+# the living parent process.
+##################################################################
+
+clear
+# Wait for user input to proceed, give user a chance to cancel script
+
+# initialize variables
+intcount=0
+lastparentid=0
+
+# remove old gdb command file
+rm -f /tmp/zombie_slayer.txt
+
+command -v gdb && CMD=gdb || CMD=lldb
+
+# create the gdb command file
+echo "Creating command file..."
+ps -e -o ppid,pid,stat,command | grep Z | sort | while read LINE; do
+  intcount=$((intcount+1))
+  parentid=`echo $LINE | awk '{print $1}'`
+  zombieid=`echo $LINE | awk '{print $2}'`
+  verifyzombie=`echo $LINE | awk '{print $3}'`
+
+  # make sure this is a zombie file and we are not getting a Z from
+  # the command field of the ps -e -o ppid,pid,stat,command
+  if [ "$verifyzombie" == "Z" ]
+  then
+    if [ "$parentid" != "$lastparentid" ]
+    then
+      if [ "$lastparentid" != "0" ]
+      then
+        echo "detach" >> /tmp/zombie_slayer.txt
+      fi
+    echo "attach $parentid" >> /tmp/zombie_slayer.txt
+    fi
+    echo "call waitpid ($zombieid,0,0)" >> /tmp/zombie_slayer.txt
+    echo "Logging: Parent: $parentid  Zombie: $zombieid"
+    lastparentid=$parentid
+  fi
+done
+if [ "$lastparentid" != "0" ]
+then
+  echo "detach" >> /tmp/zombie_slayer.txt
+fi
+
+# Slay the zombies with gdb and the created command file
+echo "Slaying zombie processes..."
+$CMD -batch -x /tmp/zombie_slayer.txt 2> /dev/null
+echo "Script complete."

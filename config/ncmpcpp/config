@@ -1,0 +1,73 @@
+# vim: filetype=conf
+ncmpcpp_directory = "~/.config/ncmpcpp"
+#lyrics_directory = "~/.local/share/lyrics"
+mpd_music_dir = "/stor/mu"
+
+# VISUALIZER
+visualizer_data_source = "/tmp/mpd.fifo"
+visualizer_output_name = "my_fifo"
+visualizer_in_stereo = "no"
+visualizer_type = "spectrum" (spectrum/wave)
+visualizer_look = "▋▋"
+
+# GLOBAL
+mouse_support = "yes"
+mouse_list_scroll_whole_page = "no"
+lines_scrolled = "3"
+message_delay_time = "1"
+playlist_shorten_total_times = "yes"
+playlist_display_mode = "classic"
+browser_display_mode = "columns"
+search_engine_display_mode = "columns"
+playlist_editor_display_mode = "columns"
+autocenter_mode = "yes"
+centered_cursor = "yes"
+user_interface = "classic"
+follow_now_playing_lyrics = "yes"
+locked_screen_width_part = "63"
+ask_for_locked_screen_width_part = "yes"
+display_bitrate = "no"
+external_editor = "vi"
+
+# PROGRESSBAR
+progressbar_look = "─╼ "
+
+# UI VISIBILITY
+header_visibility = "no"
+statusbar_visibility = "no"
+titles_visibility = "no"
+enable_window_title = "yes"
+
+# UI FORMAT
+now_playing_prefix = " $b*"
+now_playing_suffix = "$/b"
+current_item_prefix = "$/b$8"
+
+startup_screen = "playlist_editor"
+#startup_slave_screen = "visualizer"
+startup_slave_screen_focus = "no"
+
+# Colors
+color1 = 242 
+color2 = 242
+visualizer_color = 242
+empty_tag_color = 242
+header_window_color = 242
+volume_color = 242
+state_line_color = 242
+state_flags_color = 242
+main_window_color = 242
+progressbar_color = 242
+progressbar_elapsed_color = 242
+statusbar_color = 242
+statusbar_time_color = 242
+player_state_color = 242
+alternative_ui_separator_color = 242
+window_border_color = 242
+
+alternative_header_first_line_format = " $b%t$/b "
+alternative_header_second_line_format = "%b — %a" 
+song_columns_list_format = (20)[]{a} (50)[]{t|f:Title} (7f)[]{l}
+song_list_format = {%a - }{%t}|{%f}$R{(%l)}
+song_status_format = {{%a{ "%b"{ (%y)}} - }{%t}}|{%f}
+song_window_title_format = {%a - }{%t}|{%f}

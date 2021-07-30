@@ -1,0 +1,20 @@
+#!/bin/sh
+
+function xp () 
+{
+    lines=`cvs -qn update | grep "^[A|M] "| grep --color=auto -v "Makefile" | grep --color=auto -v "SMX_Server/TCUSER_ANSI_ASN_1/" | grep --color=auto -v "SMX_Server/IS41_ASN_1/" | grep --color=auto -v "rcsmerge" | eval "fzf ${FZF_DEFAULT_OPTS} -m --header='[status:file]'"  `
+    if [ "$file" != "" ]
+        then
+            # TODO: parse line by line
+            echo "parsing $lines"
+            while read -r lines
+            do
+                status=`echo "$file" | awk '{print $1}'`
+                fname=`echo "$file" | awk '{print $2}'`
+
+                echo "$fname is $status "
+            done < <(jobs)
+    fi
+}
+
+xp

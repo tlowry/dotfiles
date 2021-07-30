@@ -1,0 +1,20 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: co <host_string> ssh opts" && exit 1
+PREVTERM="$TERM"
+TERM='xterm-256color'
+
+boxname=`echo "$1" | awk '{split($0, a, "@"); print a[2] }'`
+if [ -z "$boxname" ]; then
+    # there was no @ in str & box comes after
+    boxname="$1" && RUSER="$USER"
+else
+    # there was an @ in str & box comes after
+    RUSER=`echo "$1" | awk '{split($0, a, "@"); print a[1] }'`
+fi
+
+# pass on remaining shell opts to ssh
+shift
+opts="$@"
+
+ssh "$RUSER@$boxname" "$opts";
+TERM="$PREVTERM"

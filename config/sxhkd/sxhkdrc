@@ -1,0 +1,84 @@
+# DM agnostic keybindings
+
+# terminal emulator
+super + Return
+	$TERMINAL
+
+# program launcher
+super + d
+	dmenu_run
+
+# make sxhkd reload its configuration files:
+super + Escape
+    nohup app_ctl refresh
+
+super + c 
+    $TERMINAL -e neomutt
+
+# lock the screen 
+ctrl + alt + Delete
+    lock_screen
+
+# take a screen clipping from area
+super + p
+    exec sc_clip
+
+# screen clip ocr 
+super + k
+    exec sc_text
+
+# audio
+XF86Audio{Raise,Lower}Volume
+    pactl set-sink-volume @DEFAULT_SINK@ {+,-}5% 
+
+XF86AudioMute
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+XF86AudioMicMute
+    pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+XF86AudioPrev
+    mpc prev
+
+XF86AudioNext
+    mpc next
+
+XF86AudioPlay
+    mpc toggle
+
+XF86AudioRecord
+	audacity
+
+XF86Audio{Rewind,Forward}
+	mpc seek {-,+}10
+
+XF86AudioMedia
+	$TERMINAL -e ncmpcpp
+
+XF86Tools
+    $TERMINAL -e ncmpcpp 
+
+# change kbd language input
+super + x
+    togglekbd
+
+super + space
+    $TERMINAL -e elinks
+
+super + n
+    $TERMINAL -e newsboat
+
+super + a
+    $TERMINAL -e pulsemixer
+
+super + w
+    $TERMINAL -e lf
+
+super + e
+    $TERMINAL -e vim -c 'startinsert'
+
+super + c
+    nohup work
+
+super + s
+    $TERMINAL -e tes

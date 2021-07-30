@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=lf
+TryExec=lf
+Exec=lf %F
+GenericName=CLI File Browser
+Comment=
+Categories=Utility
+Terminal=true
+MimeType=inode/directory

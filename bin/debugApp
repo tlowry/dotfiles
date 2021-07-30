@@ -1,0 +1,5 @@
+#!/bin/sh
+[ -z "$1" ]
+proc=`pgrep $1`
+echo $proc
+gdbserver localhost:6970 --attach $proc

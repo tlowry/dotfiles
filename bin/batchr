@@ -1,0 +1,32 @@
+#!/bin/bash
+while :
+do
+    case "$1" in
+	-f) force=1;;
+	*) break;;
+    esac
+    shift
+done
+
+exp="$1"
+[ -z "$exp" ] && echo "use: batchr <sed_regex_to_rename> <opt: -f to apply>"
+
+# replace all unsafe chars in filenames with safer ones for the current dir
+find -maxdepth 1 -print0 | 
+	while IFS= read -r -d '' i; do
+    case "$i" in 
+        "." | "..") continue;;
+    esac
+
+	file_name=`basename "$i"`
+	dir=`dirname "$i"`
+
+    new_name=`echo "$file_name" | sed $exp`
+    [ -z "$new_name" ] && echo "Quitting on regex fail for $file_name" && break
+
+    if [ -z "$force" ]; then
+        echo "$new_name"
+    else
+        [ "$new_name" != "$file_name" ] && mv "$i" "$dir/$new_name"
+    fi
+done

@@ -1,0 +1,19 @@
+#!/bin/sh
+function usage() {
+ echo "Usage: \"rollback filename revision\" ($1)"
+}
+
+if [ -z "$1" ]
+  then
+    usage "missing file"
+    exit 1
+fi
+if [ -z "$2" ]
+  then
+    usage "missing revision"
+    exit 1
+fi
+
+FILE=$1
+REV=$2
+cvs -Q update -p -r $REV $FILE > $FILE

@@ -1,0 +1,25 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: ut <file>.tar.gz" && exit 1
+
+gun () {
+    tar -zxf "$1" || exit 1
+}
+
+bun () {
+    tar -xf "$1" || exit 1
+}
+
+zun () {
+    unzip "$1" || exit 1
+}
+
+sun () {
+    7z x "$1" || exit 1
+}
+
+echo "$1" | egrep "tar$" && bun "$1"
+echo "$1" | egrep "xz$" && bun "$1"
+echo "$1" | egrep "gz$" && gun "$1"
+echo "$1" | egrep ".bz2$" && bun "$1"
+echo "$1" | egrep ".zip$" && zun "$1"
+echo "$1" | egrep ".7z$" && sun "$1"

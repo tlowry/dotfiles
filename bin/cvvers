@@ -1,0 +1,9 @@
+#!/bin/sh
+# list all revisions for a file under cvs version control
+
+if [ -z $1 ]
+then
+    echo "please supply a file under cvs version control"
+    exit
+fi
+cvs log $1 | grep "revision " | awk '{ print $2 }'

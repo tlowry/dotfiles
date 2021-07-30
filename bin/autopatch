@@ -1,0 +1,201 @@
+#!/usr/bin/env python
+# not entirely sure what the purpose of this was? (probably patching cvs branches)
+import sys
+import os
+import re
+import time
+import errno
+import traceback
+import subprocess
+import multiprocessing as mp
+
+def mkdir_if_not_exist(path):
+    try:
+        os.makedirs(path)
+    except OSError as exception:
+        if exception.errno != errno.EEXIST:
+          raise
+
+def enum(**enums):
+  return type('Enum', (), enums)
+
+LineMode = enum(FILE_NAME = 1, SKIP_LINE = 2, REVISION_LINE = 3)
+SRC_DIR="/path/to/project"
+
+#concurrent cvs tasks cause race condition on locks, run in sequence
+def run_all_jobs_sync(commands):
+  print("run_all_jobs_sync")
+  num_cmds = str(len(commands))
+  print("Running "+num_cmds+" commands")
+  for cmd in commands:
+    res = cmd.run()
+    run_all_jobs_sync.q.put(res+"\n")
+
+def init_all_jobs(q):
+  run_all_jobs_sync.q = q
+
+def run_job(cmd):
+  res = cmd.run()
+  run_job.q.put(res)
+  return res
+
+def init_jobs(q):
+  run_job.q = q
+
+def arr_str(arr):
+  count = 0
+  max = len(arr)
+  str = ""
+  while count < max:
+    str += arr[count] + " "
+    count+=1
+  return str
+
+class DiffCommand:
+  def __init__(self, out_dir):
+    self.diff_cmd = "diff -bBup"
+    self.old_rev = ""
+    self.new_rev = ""
+    self.file_path = ""
+    self.file_name = ""
+    self.out_dir = out_dir
+    pass
+
+  def build_args(self):
+    file_path = self.file_path+"/"+self.file_name
+    out_path = self.out_dir+"/"+self.file_path
+    print("making "+out_path)
+    mkdir_if_not_exist(out_path)
+    print("diffing "+file_path)
+    return ["cvs diff -bBup -r"+self.old_rev+" -r"+self.new_rev+" "+file_path ]
+
+  def run(self):
+    patch_cmd = None
+    try:
+      args = self.build_args()
+      print("Running "+arr_str(args))
+      out_name, file_extension = os.path.splitext(self.file_name)
+      out_file_name = self.out_dir+"/"+self.file_path+"/"+out_name+".patch"
+      patch_cmd = "patch < "+out_file_name+" $DEST_DIR/"+self.file_path+"/"+self.file_name
+      out_file = open(out_file_name, 'w+')
+      proc = subprocess.Popen(args,cwd=SRC_DIR, shell=True, stdout=out_file, stderr=subprocess.PIPE)
+      out = proc.communicate()
+      #info = out[0]
+      errs = out[1]
+      if errs != None and len(errs) > 0:
+        print("Got errs "+errs)
+      
+    except Exception as e:
+      print("Exception running diff command process")
+      print(traceback.format_exc())
+
+    return patch_cmd
+
+  def __str__(self):
+    return  ("\n\tdiff_cmd :"+self.diff_cmd+
+             "\n\told_rev :"+self.old_rev+
+             "\n\tnew_rev :"+self.new_rev+
+             "\n\tfile_path :"+self.file_path+
+             "\n\tfile_name :"+self.file_name+
+             "\n\tout_dir :"+self.out_dir)
+
+class CVSPatcher:
+  
+  USAGE_STRING="Usage: autopatch <cvs_commit_file> <patch_output_dir>"
+  
+  def __init__(self):
+    self.commit_file = ""
+    self.out_dir = "/tmp"
+  
+  def validate_args(self, args):
+    if len(args) < 3:
+      raise exception(USAGE_STRING)
+    
+    self.commit_file = args[1]
+    self.out_dir = args[2]
+
+  def parse_file_name(self, line, cmd):
+    start_pos = line.find("Checking in ")
+    if(start_pos != -1):
+      start_pos += 12
+      full_path = (line[start_pos:-2])
+      file_name_pos = full_path.rfind("/")
+      cmd.file_name = full_path[file_name_pos+1:]
+      cmd.file_path = full_path[:file_name_pos]
+
+  def parse_diff_cmd(self, line, cmd):
+    match = re.match("new revision: (.+); previous revision: (.+)",line)
+    cmd.old_rev = match.group(2)
+    cmd.new_rev = match.group(1)
+    return cmd
+   
+  def process_patch(self):
+    mkdir_if_not_exist(self.out_dir)
+    
+    out_file = open(self.out_dir+"/patch.sh","w")
+    in_file = open(self.commit_file, "r",1)
+     
+    mode = LineMode.FILE_NAME
+    last_mode = mode
+    file_name = ""
+    
+    commands = []
+    cmd_count = 0
+    for line in in_file:
+      if mode == LineMode.SKIP_LINE:
+        if last_mode == LineMode.FILE_NAME:
+          mode = LineMode.REVISION_LINE
+        else:
+          mode = LineMode.FILE_NAME
+          
+      elif mode == LineMode.FILE_NAME:
+
+        cmd = DiffCommand(self.out_dir)
+        file_name = self.parse_file_name(line,cmd)       
+        if len(cmd.file_name) > 0:
+          commands.append(cmd)
+          last_mode = mode
+          mode = LineMode.SKIP_LINE
+
+      elif mode == LineMode.REVISION_LINE:
+        #TODO: blank check
+        if len(line) > 0:
+          self.parse_diff_cmd(line, commands[cmd_count])
+
+          cmd_count += 1
+          last_mode = mode
+          mode = LineMode.SKIP_LINE
+    
+    print("Done Processing commits") 
+    q = mp.Queue()
+    p = mp.Pool(None, init_all_jobs(q), [q])
+    
+    print("Synchronously running diff commands") 
+    p.apply_async(run_all_jobs_sync,args=(commands,))
+    print("Forked commands to process")
+
+    out_file.write("DEST_DIR=.\n")
+    
+    completed = 0
+    while completed < len(commands):
+      try:
+        res = q.get()
+        out_file.write(res)
+      except:
+        print("Job Failed to complete")
+      completed+=1
+    
+    p.close()
+
+def fail_on_err(e):
+  print(traceback.format_exc())
+  exit()
+
+patcher = CVSPatcher()
+try:
+  patcher.validate_args(sys.argv)
+  patcher.process_patch()
+    
+except Exception as e:
+  fail_on_err(e)
+

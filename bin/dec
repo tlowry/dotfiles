@@ -1,0 +1,9 @@
+#!/bin/sh
+# complement to enc function (assumes file encrypted with .gpg extension)
+
+[ -z $1 ] && echo "use: dec <encrypted file>" && exit 1
+in_file=$(basename -- "$1")
+out_file="${in_file%.*}"
+gpg -o $out_file -d $1
+
+[ "$out_file" = *.tgz ] && ut $out_file && rm -rf $out_file

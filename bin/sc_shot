@@ -1,0 +1,4 @@
+#!/bin/sh
+# take a screen shot of the whole screen
+timestamp=`date +%s`
+magick import -window root ~/screen-$timestamp.png

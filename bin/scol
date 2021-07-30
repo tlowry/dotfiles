@@ -1,0 +1,13 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: scol <>" && exit 1
+
+# overwriting term cols possible!
+show_colour() {
+    perl -e 'foreach $a(@ARGV){print "\e[48;2;".join(";",unpack("C*",pack("H*",$a)))."m \e[49m "};print "\n"' "$@"
+}
+
+# remove hash if present
+str="$1"
+[[ "$str" =~ ^#.*  ]] && str="${str:1}"
+
+show_colour "$str"

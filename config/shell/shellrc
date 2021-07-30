@@ -1,0 +1,104 @@
+# Annoying mispellings
+alias gamek="gmake"
+alias gamke="gmake"
+alias gmaek="gmake"
+alias gmkae="gmake"
+alias ci="vim"
+alias vu="vim"
+alias vo="vim"
+alias vi="vim"
+alias v="vim"
+
+alias g="git"
+alias gif="git diff"
+alias gad="git add"
+alias gis="git status"
+alias gek="git checkout"
+alias gom="git commit"
+alias gul="git pull"
+alias gush="git push"
+alias gal="git add .; git commit -a;git push"
+
+alias h="history"
+
+alias c="cvs"
+alias cif="cvs diff -bBup "$@""
+alias cad="cvs add"
+alias cis="cvs -qn update"
+alias cek="cvs update -C"
+alias com="cvs commit"
+alias cull="cvs update"
+
+alias wat="watch -n 2 -d"
+alias chmox="chmod +x"
+alias ls="ls -A --color=auto"
+alias ll="ls -lA --color=auto"
+alias l="ls -thArl --color=auto"
+
+alias eb="ebook-viewer --detach"
+alias we="curl wttr.in"
+alias tad="transmission-remote -a"
+alias tel="transmission-remote -l"
+alias tat="tmux attach -t"
+
+# always collate when printing
+alias lp="lp -o sides=two-sided-long-edge"
+alias o="xdg-open"
+
+alias listen="nc -vv -l 0.0.0.0"
+alias vg="valgrind --tool=memcheck --leak-check=full -v --log-file=app-vg.pid%p"
+
+alias hig="history | grep -i"
+alias s="sudo"
+alias dl="wget -q"
+alias flib="ldconfig -p | grep -i"
+alias vms="virsh list --all"
+alias reboot="systemctl reboot"
+
+# rust stuff
+[ -f ~/.local/share/cargo/env ] && source ~/.local/share/cargo/env
+
+# Small less enhancements
+export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
+export LESS_TERMCAP_mb=$'\E[1;31m'     # begin bold
+export LESS_TERMCAP_md=$'\E[1;36m'     # begin blink
+export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
+export LESS_TERMCAP_so=$'\E[01;44;33m' # begin reverse video
+export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
+export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
+export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
+
+alias diff="diff -bBup"
+alias rg="rg --hidden"
+
+# add bin path to PATH
+[ -z "$PATH" ] && export PATH
+export PATH="$PATH":"$HOME"/.local/bin
+
+#useful history datestamps
+export HISTTIMEFORMAT='%F %T  '
+export HISTCONTROL=ignoredups # don't add duplicate commands to bash history
+
+export XDG_CONFIG_HOME=~/.config
+export XDG_DATA_HOME="$HOME/.local/share"
+export KDEHOME="$XDG_CONFIG_HOME/kde"
+export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc-2.0"
+export LESSHISTFILE="-"
+export INPUTRC="${XDG_CONFIG_HOME:-$HOME/.config}/inputrc"
+export WINEPREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/wineprefixes/default"
+export ANDROID_SDK_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/android"
+export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
+export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
+export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!git/*"'
+export EDITOR="vim"
+export VISUAL="vim"
+export TMUX_TMPDIR="/run/user/$UID"
+export ELINKS_CONFDIR="$XDG_CONFIG_HOME"/elinks
+export CALIBRE_USE_DARK_PALETTE=1
+
+alias gdb="gdb -nh -x $XDG_CONFIG_HOME/gdb/init"
+alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
+alias irssi="irssi --home $XDG_CONFIG_HOME/irssi --config $XDG_CONFIG_HOME/irssi/config"
+
+[ -z "$BROWSER" ] && export BROWSER="brave"
+[ -z "$TERMINAL" ] && export TERMINAL="alacritty"

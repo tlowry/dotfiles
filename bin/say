@@ -1,0 +1,12 @@
+#!/bin/sh
+# send arg or piped data so spd-say
+if [ -p /dev/stdin ]; then
+    while IFS= read line; do
+        echo "$line" | spd-say -e
+    done
+elif [ ! -z "$1" ]; then
+	term="'$*'"
+	spd-say "$term"
+else
+    echo "use: say <text> or pipe into" && exit 1
+fi

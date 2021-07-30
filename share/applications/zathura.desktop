@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Zathura
+Exec=zathura %F
+GenericName=Document viewer
+Comment=A highly customizable and functional document viewer
+Categories=Graphics;Viewer;
+MimeType=application/epub+zip;application/pdf;

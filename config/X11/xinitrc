@@ -1,0 +1,3 @@
+#exec spectrwm
+#exec openbox-session
+exec bspwm

@@ -1,0 +1,117 @@
+# If `true`, bold text is drawn using the bright color variants.
+draw_bold_text_with_bright_colors: true
+
+# Colors (Tangoish)
+# Note: Orange is used in place of Cyan
+colors:
+  primary:
+    background: '#2e3436'
+    foreground: '#eeeeec'
+  
+  # Normal colors
+  normal:
+     black:   '#2e3436'
+     red:     '#cc0000'
+     green:   '#73d216'
+     yellow:  '#edd400'
+     blue:    '#3465a4'
+     magenta: '#75507b'
+     cyan:    '#f57900'
+     white:   '#d3d7cf'
+
+  # Bright colors
+  bright:
+     black:   '#2e3436'
+     red:     '#ef2929'
+     green:   '#8ae234'
+     yellow:  '#fce94f'
+     blue:    '#729fcf'
+     magenta: '#ad7fa8'
+     cyan:    '#fcaf3e'
+     white:   '#eeeeec'
+
+# Specifying a `duration` of `0` will disable the visual bell.
+bell:
+  animation: EaseOutExpo
+  duration: 0
+#  color: '#ffffff'
+
+background_opacity: 0.7
+
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+
+  # When set to `true`, selected text will be copied to the primary clipboard.
+save_to_clipboard: true
+
+# Allow terminal applications to change Alacritty's window title.
+window.dynamic_title: true
+
+cursor:
+  # Cursor style
+  #
+  # Values for `style`:
+  #   - ▇ Block
+  #   - _ Underline
+  #   - | Beam
+  style: Block
+
+  # Vi mode cursor style
+  #
+  # If the vi mode cursor style is `None` or not specified, it will fall back to
+  # the style of the active value of the normal cursor.
+  #
+  # See `cursor.style` for available options.
+  vi_mode_style: Beam
+
+  # If this is `true`, the cursor will be rendered as a hollow box when the
+  # window is not focused.
+  unfocused_hollow: true
+
+# Live config reload (changes require restart)
+live_config_reload: true
+
+mouse:
+  # Click settings
+  #
+  # The `double_click` and `triple_click` settings control the time
+  # alacritty should wait for accepting multiple clicks as one double
+  # or triple click.
+  double_click: { threshold: 300 }
+  triple_click: { threshold: 300 }
+
+  # If this is `true`, the cursor is temporarily hidden when typing.
+  #hide_when_typing: false
+
+hints:
+ regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)\
+  #           [^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
+ command: xdg-open
+
+font:
+  # The normal (roman) font face to use.
+  normal:
+    family: SourceCodePro
+    # Style can be specified to pick a specific face.
+    style: Regular
+
+  # The bold font face
+  bold:
+    family: Iosevka
+    # Style can be specified to pick a specific face.
+    style: Bold
+
+  # The italic font face
+  italic:
+    family: Iosevka
+    # Style can be specified to pick a specific face.
+    style: Italic
+
+  # Point size of the font
+  size: 12.0
+
+  # Offset is the extra space around each character. offset.y can be thought of
+  # as modifying the linespacing, and offset.x as modifying the letter spacing.
+  offset:
+    x: 0
+    y: 0

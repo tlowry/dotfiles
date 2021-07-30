@@ -1,0 +1,3 @@
+#!/bin/sh
+#small script for optimal vncserver launch for either tigervnc or tightvnc
+vncserver -geometry 1600x900

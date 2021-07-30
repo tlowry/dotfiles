@@ -1,0 +1,4 @@
+#!/bin/sh
+# wgall, download an entire website and redirect links to produce offline copy
+[ -z "$1" ] && echo "use: wgall <website to dl>" && exit 1
+wget --wait=0 --recursive --no-clobber --page-requisites --html-extension --convert-links --restrict-file-names=windows --no-parent "$1"

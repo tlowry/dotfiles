@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: repl: replace in all files <term to replace> <term to be replaced with>" && exit 1
+find ./ -type f -exec sed -i -e "s/$1/$2/g" {} \;

@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: append_if_missing <file> <text to append>" && exit 1
+grep -qxF "$1" "$2" || echo "$1" >> "$2"

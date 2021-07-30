@@ -1,0 +1,2 @@
+#!/bin/sh
+ip route get 8.8.8.8 | awk '{ for (nn=1;nn<=NF;nn++) if ($nn~"src") print $(nn+1) }'

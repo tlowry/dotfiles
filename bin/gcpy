@@ -1,0 +1,6 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: gcpy <gdrive file> <gdrive dest>" && exit 1
+[ -f "$1" ] || [ -d "$1" ] || echo "file "$1" doesn't exist" || exit 2
+
+src=`gpath "$1"`
+rclone copy gdrive:/"$src" gdrive:/"$2"

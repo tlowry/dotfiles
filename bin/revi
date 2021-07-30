@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: revi <container_name>" && exit 1
+podman commit "$1" "$1_rev" && podman run --rm -it --entrypoint /bin/sh "$1_rev"

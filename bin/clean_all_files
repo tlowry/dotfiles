@@ -1,0 +1,7 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: dot <file_filter>" && exit 1
+out_file="/tmp/clean_all.sh"
+[ -f "$out_file" ] && rm "$out_file"
+find . -type f -name "$1" -exec echo "mv \"{}\" \`clean_file_name \"{}\" \`" >> "$out_file" \;
+chmod +x "$out_file"
+echo "$out_file"

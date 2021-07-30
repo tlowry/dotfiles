@@ -1,0 +1,4 @@
+#!/bin/sh
+[ -z "$2" ] && echo "use: vm_cdrom <vm_name> <path_to_iso>" && exit 1
+virsh domblklist "$1" # echo out current disks
+virsh change-media "$1" sda "$2"

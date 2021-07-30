@@ -1,0 +1,3 @@
+#!/bin/sh
+export XMLLINT_INDENT=\ \ \ \ 
+xmllint -format -recover $1 > /tmp/xmllint-$1 && cp /tmp/xmllint-$1 $1

@@ -1,0 +1,70 @@
+#!/bin/bash
+
+function start () {
+    echo "apps start"
+    pgrep -x bspwm && wm="bspwm"
+    xrdb -merge "$HOME"/.config/X11/Xresources &
+    fix_mon &
+    pgrep mpd || mpd &
+    pgrep redshift || redshift &
+    if [ "$wm" = "bspwm" ]; then
+        echo "start bsp!"
+        sxhkd -c ~/.config/sxhkd/sxhkdrc ~/.config/sxhkd/bspwm &
+    else
+        echo "start openbox"
+        sxhkd -c ~/.config/sxhkd/sxhkdrc
+    fi
+}
+
+function refresh () {
+    echo "apps refresh"
+    pgrep -x bspwm && wm="bspwm"
+    killall sxhkd 
+    killall redshift
+    
+    sleep 0.5
+    xrdb -merge "$HOME"/.config/X11/Xresources &
+    fix_mon &
+    mpd &
+    redshift &
+
+    if [ "$wm" = "bspwm" ]; then
+        echo "refresh bspwm"
+        sxhkd -c ~/.config/sxhkd/sxhkdrc ~/.config/sxhkd/bspwm &
+        bspc wm -r
+        run_polybar bspwm_bar &
+    else
+        echo "refresh openbox"
+        sxhkd -c ~/.config/sxhkd/sxhkdrc
+        run_polybar main_bar &
+        pgrep openbox && openbox --reconfigure
+    fi
+}
+
+function stop () {
+    echo "apps stop"
+    killall -q sxhkd bspwm openbox redshift
+}
+
+function restart() {
+    stop
+    start
+}
+
+case "$1" in 
+    "start" )
+            start
+        ;;
+    "stop" )
+            stop
+        ;;
+    "refresh" )
+            refresh 
+        ;;
+
+    "restart" )
+            restart
+        ;;
+    *)
+        echo "use app_ctl <start|stop|restart|refresh>" 
+esac

@@ -1,0 +1,6 @@
+#!/bin/sh
+main="HDMI2"
+#left="HDMI1"
+#xrandr --output "$left" --left-of "$main"
+xrandr --output "$main" --mode 1920x1080 --rate 60
+xrandr --output "$main" --primary

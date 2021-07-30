@@ -1,0 +1,18 @@
+#!/bin/sh
+# take shot of screen area with mouse and ocr it using tesseract
+timestamp=`date +%s`
+img="/tmp/sc_img-$timestamp.png"
+out="/tmp/sc_out"
+
+clean(){
+    rm -rf "$img"
+    #rm -rf "$out".txt
+}
+
+display(){
+    sed -i '/^$/d' "$1" "$1"
+    #cat "$1"
+    leafpad "$1"
+}
+
+magick import $img && tesseract "$img" "$out" 2>/dev/null && display "$out".txt && clean

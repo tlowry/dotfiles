@@ -1,0 +1,5 @@
+#!/bin/sh
+IS_BASH=`ps -p $$ | grep bash`
+[ -z $IS_BASH ] || bind -f  ~/.inputrc && . ~/.bashrc && echo "shell reloaded" && exit 0
+
+[ -z $IS_BASH ] && . ~/.zshrc && echo "shell reloaded" && exit 0

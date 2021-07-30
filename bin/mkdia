@@ -1,0 +1,5 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: dia <dot file>" && exit 1
+file_name=`basename $1`
+out_file="$file_name.png"
+dot -Tpng "$1" -o "$out_file" && echo "$out_file"

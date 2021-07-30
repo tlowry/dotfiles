@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+function indent_file() {
+  echo "Indenting $@"
+  /usr/bin/emacs -batch $@ \
+    -l "${BASH_SOURCE%/*}"/emacs-indent-google -f emacs-format-function
+}
+
+if [ -z "$1" ]
+  then
+    echo "No file supplied"
+    exit 1
+fi
+
+if [ "$1" = '-a' ]
+  then
+    echo "indenting all files"
+
+  PWD= $(pwd)
+  FILES=$PWD/*
+
+  CPP_FILES='\.cpp|\.h'
+
+  for f in $FILES
+    do
+      if [[ $f =~ $CPP_FILES ]]; then
+        indent_file $f
+      fi
+  done
+  exit 1
+fi
+
+indent_file $1

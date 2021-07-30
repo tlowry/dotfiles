@@ -1,0 +1,10 @@
+#!/bin/bash
+to_hist() {
+    da=`date +%s`
+    line="#$da"
+    echo $line >> ~/.bash_history
+    echo "$1" >> ~/.bash_history
+}
+
+IFS=$'\n' files=(`fzf --query="$1" --multi --select-1 --exit-0`)
+[[ -n "$files" ]] && e_app=${EDITOR:-vim} && to_hist "$e_app ${files[@]}";$e_app "${files[@]}"

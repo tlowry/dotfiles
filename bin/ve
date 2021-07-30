@@ -1,0 +1,9 @@
+#!/bin/sh
+#python virtualenv setup
+env_name="_venv"
+if [ "$1" == "2" ]; then
+  [ -f "$env_name" ] || virtualenv --python=`which python2` "$env_name";
+else
+  [ -f "$env_name" ] || virtualenv "$env_name";
+fi
+source "$env_name"/bin/activate

@@ -1,0 +1,3 @@
+#!/bin/sh
+file="$HOME/.config/shell/shellrc"
+[ -f "$file" ] && . "$file"

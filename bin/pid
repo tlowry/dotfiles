@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: pid <process_name>" && exit 1
+ps -ef | grep "$1" | egrep -v "$$|$PPID|<defunct>|grep" | awk '{print $2 }'

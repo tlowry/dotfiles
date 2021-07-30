@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -z $1 ] && echo "use gmkdir <gdrive dir to create>" && exit 1
+rclone mkdir gdrive:/$1 && mkdir $1

@@ -1,0 +1,7 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: gdp <process name>" && exit 1
+proc="$1"
+shift
+pid=`pid "$proc"`
+[ -z "$pid" ] && echo "no pid found for $proc" && exit 1
+gdb -nh -x ${XDG_CONFIG_HOME-$HOME/.config}/gdb/init -p "$pid" "$@"

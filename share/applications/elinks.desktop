@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=elinks
+TryExec=elinks
+Exec=elinks %F
+GenericName=CLI Web Browser 
+Comment=
+Categories=Internet;
+Terminal=true
+MimeType=text/html;text/xml;application/xhtml_xml;x-scheme-handler/http;x-scheme-handler/https;

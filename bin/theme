@@ -1,0 +1,12 @@
+#!/bin/sh
+# use pywal to generate a theme and copy updates around
+[ -z "$1" ] && echo "use: theme <name>" && exit 1
+wal --theme "$1"
+
+# copy generated vim scheme to dots
+# use colorscheme colors-wal in vimrc to enable
+cp ~/.cache/wal/colors-wal.vim $HOME/.vim/colors
+
+# copy xresources & reload
+cp ~/.cache/wal/colors.Xresources $HOME/.Xresources
+xrdb ~/.config/Xresources

@@ -1,0 +1,5 @@
+#!/bin/sh
+[ -z "$1" ] && echo "use: opport <host (option)> <port>" && exit 1
+
+nc -z "$host" "$port" && echo "$port open on $host" && exit 0
+echo "$port closed on $host" && exit 1

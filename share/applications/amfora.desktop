@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=amfora
+TryExec=amfora
+Exec=amfora %F
+GenericName=CLI Gemini Browser
+Comment=
+Categories=Utility;TextEditor;
+Terminal=true
+MimeType=text/gemini;
